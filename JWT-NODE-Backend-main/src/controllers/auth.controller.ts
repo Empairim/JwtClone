@@ -397,7 +397,7 @@ export const forgotPasswordHandler = async (
     const url = `${config.get<string>("origin")}/resetpassword/${resetToken}`;
 
     try {
-      await new Email(user, url).sendPasswordResetToken();
+      // await new Email(user, url).sendPasswordResetToken();
 
       return res.status(200).json({
         status: "success",

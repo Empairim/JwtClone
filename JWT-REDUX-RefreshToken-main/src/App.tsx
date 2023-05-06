@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import RegisterPage from "./pages/register.page";
 import LoginPage from "./pages/login.page";
 import HomePage from "./pages/home.page"; // Import HomePage
+import ForgotPasswordPage from "./pages/forgotPassword.page"; // Import ForgotPasswordPage
 
 import { ToastContainer } from "react-toastify";
 import { CssBaseline } from "@mui/material";
@@ -24,12 +25,15 @@ function App() {
         {/* Roles in my CRM Role-Based Routing // authorization and authentication */}
         {/* // later we will get it from APIs */}
         <Route path="/" element={<Layout />}>
+          <Route path="/" element={<HomePage />} />{" "}
+          {/* Move the home page route */}
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />{" "}
+          {/* Add this route */}
           <Route element={<RequireUser allowedRoles={["admin", "user"]} />}>
             <Route path="profile" element={<ProfilePage />} />
-            <Route path="/" element={<HomePage />} />{" "}
-            {/* Move the home page route */}
           </Route>
         </Route>
+
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/logout" element={<LoginPage />} />

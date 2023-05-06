@@ -1,6 +1,7 @@
 // Import the RegisterInput type from the register page component
 import { RegisterInput } from "../../pages/register.page";
 import { LoginInput } from "../../pages/login.page";
+import { ForgotPasswordInput } from "../../pages/forgotPassword.page"; // Import the ForgotPasswordInput type from the forgot password page component
 // Import the customFetchBase utility function
 import customFetchBase from "./customFetchBase";
 // Import the createApi and fetchBaseQuery functions from Redux Toolkit
@@ -38,31 +39,43 @@ export const authApi = createApi({
       },
     }),
     // Define the loginUser mutation
-    loginUser: builder.mutation<{access_token:string, status:string},LoginInput>
-    ({
+    loginUser: builder.mutation<
+      { access_token: string; status: string },
+      LoginInput
+    >({
       query(data) {
         return {
           url: "auth/login", // The URL for the login endpoint
           method: "POST", // The HTTP method to use for the request
           body: data, // The credentials to send in the request body
-          credentials:"include"
+          credentials: "include",
         };
       },
-      async onQueryStarted(args, {dispatch, queryFulfilled}){
-        try{
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
           await queryFulfilled;
           await dispatch(userApi.endpoints.getMe.initiate(null));
-        }catch(error){}
-      }
+        } catch (error) {}
+      },
     }),
-    logoutUser: builder.mutation<void,void>({
-      query(){
+    // Define the forgotPassword mutation
+    forgotPassword: builder.mutation<GenericResponse, ForgotPasswordInput>({
+      query(data) {
         return {
-          url:"auth/logout",
-          credentials:'include'
-        }
-      }
-    })
+          url: "auth/forgotpassword", // The URL for the forgot password endpoint
+          method: "POST", // The HTTP method to use for the request
+          body: data, // The data to send in the request body
+        };
+      },
+    }),
+    logoutUser: builder.mutation<void, void>({
+      query() {
+        return {
+          url: "auth/logout",
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
@@ -71,5 +84,6 @@ export const {
   useRegisterUserMutation,
   useVerifyEmailMutation,
   useLoginUserMutation,
+  useForgotPasswordMutation, // Export the custom hook for the forgotPassword mutation
   useLogoutUserMutation,
 } = authApi;
