@@ -64,7 +64,7 @@ const HomePage = () => {
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
             <Button variant="contained" onClick={handleButtonClick}>
-              Go to Forgot Password Page
+              Go to Forgot/Edit Password Page
             </Button>
           </Box>
         </Grid>
